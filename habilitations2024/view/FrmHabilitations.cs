@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace habilitations2024
     {
-    public partial class Form1 : Form
+    public partial class FrmHabilitations : Form
         {
-        public Form1()
+        public FrmHabilitations()
             {
-            InitializeComponent();
+
             }
         }
     }

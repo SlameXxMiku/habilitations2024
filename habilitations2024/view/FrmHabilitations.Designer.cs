@@ -1,6 +1,9 @@
-﻿namespace habilitations2024
+﻿using System.Windows.Forms;
+
+namespace habilitations2024
     {
-    partial class Form1
+    public partial class FrmHabilitations : Form
+
         {
         /// <summary>
         /// Variable nécessaire au concepteur.
