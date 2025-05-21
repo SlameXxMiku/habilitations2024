@@ -101,6 +101,7 @@ namespace habilitations2024.dal
             return lesDeveloppeurs;
         }
 
+
         /// <summary>
         /// Demande de suppression d'un développeur
         /// </summary>

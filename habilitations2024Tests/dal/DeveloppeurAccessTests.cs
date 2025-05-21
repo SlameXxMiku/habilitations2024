@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using habilitations2024.model;
+using System.Linq;
 
 namespace habilitations2024.dal.Tests
 {
@@ -48,6 +49,39 @@ namespace habilitations2024.dal.Tests
             Assert.IsFalse(developpeurAccess.ControleAuthentification(new Admin(nom, prenom, erreurPwd)),
                 "devrait échouer : pwd incorrect");
         }
+        [TestMethod]
+        public void Test_GetLesDeveloppeurs_SansFiltre()
+            {
+            // Arrange : Instancie l'accès aux données
+            DeveloppeurAccess access = new DeveloppeurAccess();
+
+            // Act : Récupère tous les développeurs
+            List<Developpeur> developpeurs = access.GetLesDeveloppeurs();
+
+            // Assert : Vérifie que le nombre total correspond à tous les développeurs enregistrés
+            int expectedCount = 22; // Mets ici le vrai nombre total
+
+            Assert.AreEqual(expectedCount, developpeurs.Count, "Le nombre total de développeurs est incorrect.");
+            }
+
+        [TestMethod]
+        public void Test_GetLesDeveloppeurs_ProfilSelectionne()
+            {
+            DeveloppeurAccess access = new DeveloppeurAccess();
+            string profilFiltre = "dev-front";
+
+            List<Developpeur> developpeurs = access.GetLesDeveloppeurs();
+
+
+            List<Developpeur> developpeursFiltres = developpeurs.Where(d => d.Profil.Nom == profilFiltre).ToList();
+
+
+            int expectedCount = 5; 
+
+            Assert.AreEqual(expectedCount, developpeursFiltres.Count, "Le nombre de développeurs récupéré est incorrect.");
+            }
+
+
 
         [TestMethod()]
         public void GetLesDeveloppeursTest()

@@ -30,6 +30,10 @@ namespace habilitations2024.view
         /// </summary>
         private readonly BindingSource bdgProfils = new BindingSource();
         /// <summary>
+        /// Objet pour gérer la liste des filtres
+        /// </summary>
+        private readonly BindingSource bdgFiltres = new BindingSource();
+        /// <summary>
         /// Controleur de la fenêtre
         /// </summary>
         private FrmHabilitationsController controller;
@@ -60,6 +64,7 @@ namespace habilitations2024.view
             controller = new FrmHabilitationsController();
             RemplirListeDeveloppeurs();
             RemplirListeProfils();
+            RemplirListeFiltre();
             EnCourseModifDeveloppeur(false);
             EnCoursModifPwd(false);
         }
@@ -75,6 +80,7 @@ namespace habilitations2024.view
             dgvDeveloppeurs.Columns["iddeveloppeur"].Visible = false;
             dgvDeveloppeurs.Columns["pwd"].Visible = false;
             dgvDeveloppeurs.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+
         }
 
         /// <summary>
@@ -86,6 +92,44 @@ namespace habilitations2024.view
             bdgProfils.DataSource = lesProfils;
             cboProfil.DataSource = bdgProfils;
         }
+        /// <summary>
+        /// Affiche les filtres dans la comboBox
+        /// </summary>
+        private void RemplirListeFiltre()
+            {
+            
+            List<Profil> Filtre = controller.GetLesProfils();
+            Filtre.Insert(0, new Profil(0, ""));
+            bdgFiltres.DataSource = Filtre;
+            cboFiltre.DataSource = bdgFiltres;
+            }
+        /// <summary>
+        /// Filtre les développeurs en fonction du profil sélectionné
+        /// </summary>
+        /// <param name="sender"></param> 
+        /// <param name="e"></param>
+        private void cboFiltre_SelectedIndexChanged(object sender, EventArgs e) 
+            {
+            if (cboFiltre.SelectedItem != null)
+                {
+                Profil profilSelectionne = (Profil)cboFiltre.SelectedItem;
+                
+                bdgDeveloppeurs.DataSource = controller.GetLesDeveloppeurs();
+
+                if (!string.IsNullOrEmpty(profilSelectionne.Nom))
+                    {
+                    List<Developpeur> lesDeveloppeurs = (List<Developpeur>)bdgDeveloppeurs.DataSource;
+                    bdgDeveloppeurs.DataSource = lesDeveloppeurs.Where(d => d.Profil.Nom == profilSelectionne.Nom).ToList();
+                    }
+
+                dgvDeveloppeurs.DataSource = bdgDeveloppeurs;
+                }
+            }
+
+
+
+
+
 
         /// <summary>
         ///  Demande de modification d'un développeur
@@ -109,6 +153,7 @@ namespace habilitations2024.view
                 MessageBox.Show("Une ligne doit être sélectionnée.", titreFenetreInformation);
             }
         }
+
 
         /// <summary>
         /// Demande de suppression d'un développeur

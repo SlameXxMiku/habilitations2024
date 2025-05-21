@@ -49,7 +49,6 @@ namespace habilitations2024.controller
         {
             return profilAccess.GetLesProfils();
         }
-
         /// <summary>
         /// Demande de suppression d'un développeur
         /// </summary>
